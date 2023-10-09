@@ -122,7 +122,7 @@ public class SettingWindow extends JFrame {
         return panel;
     }
 
-    }
+    
     private Component createChoiceWinLengthPanel(){ // Создание панели для выбора размера.
         JPanel panel = new JPanel(new GridLayout(3, 1)); 
         Label title = new Label(LABEL_CHOICE_WIN_LENGTH);
