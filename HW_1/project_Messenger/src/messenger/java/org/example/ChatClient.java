@@ -16,7 +16,7 @@ public class ChatClient extends JFrame {
     private String name;
 
     JTextArea log;
-    JTextField tfIPAddress, tfPort, tfLogin, tfMessage;
+    JTextField tfIPAddress, tfPort, tfLogin, tfsendMessage;
     JPasswordField password;
     JButton btnLogin, btnSend;
     JPanel headerPanel;
@@ -73,12 +73,12 @@ public class ChatClient extends JFrame {
 
   private Component createFooter() {
         JPanel panel = new JPanel(new BorderLayout());
-        tfMessage = new JTextField();
-        tfMessage.addKeyListener(new KeyAdapter() {
+        tfsendMessage = new JTextField();
+        tfsendMessage.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == '\n'){
-                    message();
+                    sendMessage();
                 }
             }
         });
@@ -86,10 +86,10 @@ public class ChatClient extends JFrame {
         btnSend.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                message();
+                sendMessage();
             }
         });
-        panel.add(tfMessage);
+        panel.add(tfsendMessage);
         panel.add(btnSend, BorderLayout.EAST);
         return panel;
     }  
@@ -116,12 +116,12 @@ public class ChatClient extends JFrame {
     }
 
     // Обработка сообщений
-    public void message(){
+    public void sendMessage(){
         if (connected){
-            String text = tfMessage.getText();
+            String text = tfsendMessage.getText();
             if (!text.equals("")){
-                server.message(name + ": \n" + text);
-                tfMessage.setText("");
+                server.sendMessage(name + ": \n" + text);
+                tfsendMessage.setText("");
             }
         } else {
             appendLog("Нет подключения к серверу");
@@ -136,14 +136,7 @@ public class ChatClient extends JFrame {
     private void appendLog(String text){
         log.append(text + "\n");
         
-    }
-
-   
-    
-
-   
-
-    
+    }    
 
     @Override
     public int getDefaultCloseOperation() {

@@ -89,7 +89,7 @@ public class ChatServer extends JFrame {
         }
     }
     // Обработка сообщений
-    public void message(String text){
+    public void sendMessage(String text){
         if (!work){
             return;
         }
