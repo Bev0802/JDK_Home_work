@@ -136,11 +136,6 @@ public class ChatClient extends JFrame {
     private void appendLog(String text){
         log.append(text + "\n");
         
-    }    
-
-    @Override
-    public int getDefaultCloseOperation() {
-        disconnectFromServer();
-        return super.getDefaultCloseOperation();
     }
 }
+
