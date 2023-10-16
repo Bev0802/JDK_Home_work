@@ -1,4 +1,4 @@
-package server.client.ui;
+package messenger.client.userInterface;
 
 public interface ClientView {
     void showMessage(String message);

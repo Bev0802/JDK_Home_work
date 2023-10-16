@@ -1,12 +1,12 @@
-package server.server.domain;
+package messenger.server.domain;
 
-import server.client.domain.Client;
-import server.server.repository.Repository;
-import server.server.ui.ServerView;
+import messenger.client.domain.Client;
+import messenger.server.repository.Repository;
+import messenger.server.userInterface.ServerView;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*Этот класс представляет сервер, который обрабатывает клиентские соединения и сообщения.*/
 public class Server {
     private boolean work;
     private ServerView serverView;
@@ -18,7 +18,7 @@ public class Server {
         this.repository = repository;
         clientList = new ArrayList<>();
     }
-
+    /*Метод запуска сервера*/
     public void start(){
         if (work){
             showOnWindow("Сервер уже был запущен");
@@ -27,7 +27,7 @@ public class Server {
             showOnWindow("Сервер запущен!");
         }
     }
-
+    /*Метод остановки сервера */
     public void stop(){
         if (!work){
             showOnWindow("Сервер уже был остановлен");
@@ -39,7 +39,7 @@ public class Server {
             showOnWindow("Сервер остановлен!");
         }
     }
-
+    /*Способ отключения конкретного клиента от сервера*/
     public void disconnectUser(Client client){
         clientList.remove(client);
         if (client != null){
@@ -47,7 +47,7 @@ public class Server {
             showOnWindow(client.getName() + " отключился от беседы");
         }
     }
-
+    /*Способ подключения клиента к серверу*/
     public boolean connectUser(Client client){
         if (!work){
             return false;
@@ -56,7 +56,7 @@ public class Server {
         showOnWindow(client.getName() + " подключился к беседе");
         return true;
     }
-
+    /*Метод отправки сообщения всем подключенным клиентам*/
     public void message(String text){
         if (!work){
             return;
@@ -66,21 +66,21 @@ public class Server {
         answerAll(text);
         saveInHistory(text);
     }
-
+    /*Метод получения истории сообщений из репозитория*/
     public String getHistory() {
-        return repository.load();
+        return (String) repository.load();
     }
-
+    /*Метод отправки сообщения всем подключенным клиентам*/
     private void answerAll(String text){
         for (Client client: clientList){
             client.answerFromServer(text);
         }
     }
-
+    /*Метод отображения сообщения в окне сервера*/
     private void showOnWindow(String text){
         serverView.showMessage(text + "\n");
     }
-
+    /*Метод сохраняет сообщение в истории*/
     private void saveInHistory(String text){
         repository.save(text);
     }

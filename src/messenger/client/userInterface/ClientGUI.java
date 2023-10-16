@@ -1,7 +1,7 @@
-package server.client.ui;
+package messenger.client.userInterface;
 
-import server.client.domain.Client;
-import server.server.ui.ServerWindow;
+import messenger.client.domain.Client;
+import messenger.server.userInterface.ServerWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +26,7 @@ public class ClientGUI extends JFrame implements ClientView {
         setVisible(true);
     }
 
+    /*Метод настройки параметров графического интерфейса*/   
     private void setting(ServerWindow server) {
         setSize(WIDTH, HEIGHT);
         setResizable(false);
@@ -34,37 +35,37 @@ public class ClientGUI extends JFrame implements ClientView {
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         client = new Client(this, server.getConnection());
     }
-
+    /*Метод отображения сообщения в журнале JTextArea*/
     public void showMessage(String msg) {
         log.append(msg);
     }
-
+    /*Метод отключения от сервера*/
     public void disconnectFromServer(){
         hideHeaderPanel(true);
         client.disconnectFromServer();
     }
-
+    /*Метод для скрытия или отображения headerPanel*/
     public void hideHeaderPanel(boolean visible){
         headerPanel.setVisible(visible);
     }
-
+    /*Метод выполнения операции входа в систему*/
     public void login(){
         if (client.connectToServer(tfLogin.getText())){
             headerPanel.setVisible(false);
         }
     }
-
+    /*Метод отправки сообщения на сервер*/
     private void message(){
         client.message(tfMessage.getText());
         tfMessage.setText("");
     }
-
+    /*Метод создания панели графического интерфейса*/
     private void createPanel() {
         add(createHeaderPanel(), BorderLayout.NORTH);
         add(createLog());
         add(createFooter(), BorderLayout.SOUTH);
     }
-
+    /*Метод создания headerPanel*/
     private Component createHeaderPanel() {
         headerPanel = new JPanel(new GridLayout(2, 3));
         tfIPAddress = new JTextField("127.0.0.1");
@@ -88,13 +89,13 @@ public class ClientGUI extends JFrame implements ClientView {
 
         return headerPanel;
     }
-
+    /*Создание нового элемента панели JTextArea для ведения журнала.*/
     private Component createLog() {
         log = new JTextArea();
         log.setEditable(false);
         return new JScrollPane(log);
     }
-
+    /*Создание нового элемента панели для ведения сообщений*/
     private Component createFooter() {
         JPanel panel = new JPanel(new BorderLayout());
         tfMessage = new JTextField();
@@ -117,7 +118,8 @@ public class ClientGUI extends JFrame implements ClientView {
         panel.add(btnSend, BorderLayout.EAST);
         return panel;
     }
-
+    
+    /*Вызов метод DisconnectFromServer() при закрытии окна.*/
     @Override
     protected void processWindowEvent(WindowEvent e) {
         super.processWindowEvent(e);

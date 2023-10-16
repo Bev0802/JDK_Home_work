@@ -1,8 +1,7 @@
-package server;
+package messenger;
 
-import server.client.ui.ClientGUI;
-import server.server.domain.Server;
-import server.server.ui.ServerWindow;
+import messenger.client.userInterface.ClientGUI;
+import messenger.server.userInterface.ServerWindow;
 
 public class Main {
     public static void main(String[] args) {
