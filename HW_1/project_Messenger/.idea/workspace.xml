@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c48a2b16-be97-4488-a8cb-9ae07594b5e6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../game/src/game_window/SettingWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/../game/src/game_window/SettingWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +30,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "E:/Мой диск/УЧЕБА Разработчик/19. Java Development Kit/JDK_Home_work/HW_1/project_Messenger",
+    "last_opened_file_path": "E:/Мой диск/УЧЕБА Разработчик/19. Java Development Kit/JDK_Home_work/HW_2",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
@@ -50,6 +50,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="project_Messenger" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="project_Messenger" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -64,6 +77,7 @@
       <workItem from="1696230116582" duration="3371000" />
       <workItem from="1696600476419" duration="366000" />
       <workItem from="1696800036132" duration="573000" />
+      <workItem from="1697485588610" duration="537000" />
     </task>
     <servers />
   </component>
