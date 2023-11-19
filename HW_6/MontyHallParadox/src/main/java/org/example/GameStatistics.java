@@ -24,3 +24,4 @@ public class GameStatistics {
         System.out.println("Побед: " + stayWins);
     }
 }
+
