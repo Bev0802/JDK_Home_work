@@ -13,18 +13,29 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
+        ArrayList<Philosopher> philosophers = new ArrayList<>();
 
-        ArrayList<Thread> philosopher = new ArrayList<>();
-        Eating eating = new Eating();
-        eating.addFork();        
+        Eating eating = new Eating(new PhilosopherList(philosophers));
 
-        philosopher.add(new Thread(new Philosopher(eating, 1, 2)));
-        philosopher.add(new Thread(new Philosopher(eating, 2, 3)));
-        philosopher.add(new Thread(new Philosopher(eating, 3, 4)));
-        philosopher.add(new Thread(new Philosopher(eating, 4, 5)));
-        philosopher.add(new Thread(new Philosopher(eating, 5, 1)));
-       
-        philosopher.forEach(Thread::start);
-        
+        for (int i = 0; i < 5; i++) {
+            philosophers.add(new Philosopher(eating, i + 1, (i + 1) % 5 + 1, "Философ-" + (i + 1)));
+        }
+
+        ArrayList<Thread> philosopherThreads = new ArrayList<>();
+        for (Philosopher philosopher : philosophers) {
+            Thread thread = new Thread(philosopher);
+            thread.start();
+            philosopherThreads.add(thread);
+        }
+
+        // Ожидание завершения всех потоков
+        for (Thread thread : philosopherThreads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
+

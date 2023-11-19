@@ -1,67 +1,75 @@
 package ru.bev08;
 
-//import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Eating extends Thread {
-    private HashMap<Integer, Integer> fork = new HashMap<>();
-    //public ArrayList<Thread> philosophers = new ArrayList<>();
-    ReentrantLock forkLock = new ReentrantLock();
-    Condition condition = forkLock.newCondition();
+class Eating {
+    private ArrayList<Lock> forks;
+    private PhilosopherList philosopherList;
 
-    Eating() {
-        forkLock = new ReentrantLock();
-        condition = forkLock.newCondition();
+    Eating(PhilosopherList philosopherList) {
+        this.philosopherList = philosopherList;
+        this.forks = new ArrayList<>(philosopherList.getPhilosophers().size());
 
+        for (int i = 0; i < philosopherList.getPhilosophers().size(); i++) {
+            forks.add(new ReentrantLock());
+        }
     }
 
     void addFork() {
-        fork.put(1, 1); // 0 - вилка занята, 1 - вилака свободна.
-        fork.put(2, 1);
-        fork.put(3, 1);
-        fork.put(4, 1);
-        fork.put(5, 1);
+        forks.add(new ReentrantLock());
     }
 
-    // void addPhilosopher() {
-    //     philosophers.add(new Thread(new Philosopher(this, 1, 2)));
-    //     philosophers.add(new Thread(new Philosopher(this, 2, 3)));
-    //     philosophers.add(new Thread(new Philosopher(this, 3, 4)));
-    //     philosophers.add(new Thread(new Philosopher(this, 4, 5)));
-    //     philosophers.add(new Thread(new Philosopher(this, 5, 1)));        
-    // }
+    public void getFork(int left, int right, String philosopherName) {
+        Lock leftFork = forks.get(left - 1);
+        Lock rightFork = forks.get(right - 1);
 
-    void getFork(int fork_left, int fork_right) {
-        forkLock.lock();        
-        try {
-            for (int counterEat = 1; counterEat < 4; counterEat++) {                
-                if (fork.get(fork_left) == 1 && fork.get(fork_right) == 1) {
-                    fork.put(fork_left, 0);
-                    fork.put(fork_right, 0);
-                    System.out.println("Философ-" + fork_left + " размышляет.");
-                    System.out.println("Философ-" + fork_left + " берёт вилки под номером: " + fork_left + " и "
-                            + fork_right + "\nСтатус вилок пока филосов ест: " + fork);
-                    Thread.sleep(1000);
-                    fork.put(fork_left, 1);
-                    fork.put(fork_right, 1);
-                    System.out.println("Философ-" + fork_left + " поел " + counterEat + " раза.\nСтатус вилок: " + fork);                    
-                    condition.signalAll();
-                    
-
-                } else {
-                    System.out.println("Философ-" + fork_left + " размышляет.");
-                    condition.await();
+        while (true) {
+            try {
+                if (leftFork.tryLock()) {
+                    try {
+                        if (rightFork.tryLock()) {
+                            System.out.println(philosopherName + " берёт вилки под номером: " + left + " и " + right);
+                            System.out.println("Статус вилок пока философ ест: " + forksStatus());
+                            eat(philosopherName);
+                            System.out.println(philosopherName + " поел.");
+                            System.out.println("Статус вилок: " + forksStatus());
+                            return;
+                        }
+                    } finally {
+                        rightFork.unlock();
+                    }
                 }
+            } finally {
+                leftFork.unlock();
             }
-            
-        } catch (InterruptedException e) {
-            System.out.println("Error");
-        } finally {
-            forkLock.unlock();
-        }return;
-        
+        }
     }
 
+    private String forksStatus() {
+        StringBuilder status = new StringBuilder("{");
+        for (int i = 0; i < forks.size(); i++) {
+            status.append((i + 1)).append("=").append(forks.get(i).tryLock() ? 1 : 0);
+            if (i < forks.size() - 1) {
+                status.append(", ");
+            }
+            forks.get(i).unlock();  // Разблокируем вилку после проверки состояния
+        }
+        status.append("}");
+        return status.toString();
+    }
+
+    void eat(String philosopherName) {
+        System.out.println(philosopherName + " поел.");
+        Philosopher philosopher = philosopherList.getPhilosopherByName(philosopherName);
+        if (philosopher != null) {
+            philosopher.eat();
+        }
+    }
+
+    PhilosopherList getEating() {
+        return philosopherList;
+    }
 }
